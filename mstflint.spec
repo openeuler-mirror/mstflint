@@ -23,7 +23,7 @@ code. Please see the file LICENSE for licensing details.
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
-%configure --enable-fw-mgr --disable-inband
+%configure --enable-fw-mgr
 %make_build
 
 %install
