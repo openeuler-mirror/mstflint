@@ -5,7 +5,7 @@ Release:        5
 License:        GPLv2+ or BSD
 Url:            https://github.com/Mellanox/mstflint
 Source:         https://github.com/Mellanox/%{name}/releases/download/v4.10.0-2/%{name}-%{version}.tar.gz
-Patch0000:      0001-Add-function-operator-for-class-ParserCallback.patch
+Patch0000:      0001-Fix-compile-errors.patch
 
 BuildRequires:  libstdc++-devel zlib-devel libibmad-devel gcc-c++ gcc
 BuildRequires:  libcurl-devel boost-devel libxml2-devel openssl-devel
@@ -23,7 +23,7 @@ code. Please see the file LICENSE for licensing details.
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
-%configure --enable-fw-mgr
+%configure --enable-fw-mgr --disable-inband
 %make_build
 
 %install
@@ -44,7 +44,7 @@ export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
 
 %changelog
 * Tue May 19 2020 lizhenhua <lizhenhua12@huawei.com> - 4.10.0-5
-- Add function operator= for class ParserCallback
+- Fix compile errors for gcc9
 
 * Wed Dec 11 2019 catastrowings <jianghuhao1994@163.com> - 4.10.0-4
 - openEuler init

@@ -1,0 +1,77 @@
+From cb320df0e85dfc65ef605c8fcca0c16dd5c70420 Mon Sep 17 00:00:00 2001
+From: lizhenhua <lizhenhua@sina.com>
+Date: Wed, 20 May 2020 10:45:53 +0800
+Subject: [PATCH] Fix compile errors
+
+---
+ ext_libs/muparser/muParserCallback.cpp | 16 ++++++++++++++++
+ ext_libs/muparser/muParserCallback.h   |  1 +
+ mlxfwops/lib/fw_ops.cpp                |  6 +++---
+ 3 files changed, 20 insertions(+), 3 deletions(-)
+
+diff --git a/ext_libs/muparser/muParserCallback.cpp b/ext_libs/muparser/muParserCallback.cpp
+index 2044fe1..27c5b08 100755
+--- a/ext_libs/muparser/muParserCallback.cpp
++++ b/ext_libs/muparser/muParserCallback.cpp
+@@ -386,6 +386,22 @@ namespace mu
+     m_eOprtAsct  = ref.m_eOprtAsct;
+   }
+ 
++  ParserCallback& ParserCallback::operator=(const ParserCallback& cb)
++  {
++    if (this != &cb)
++    {
++      m_pFun       = cb.m_pFun;
++      m_iArgc      = cb.m_iArgc;
++      m_bAllowOpti = cb.m_bAllowOpti;
++      m_iCode      = cb.m_iCode;
++      m_iType      = cb.m_iType;
++      m_iPri       = cb.m_iPri;
++      m_eOprtAsct  = cb.m_eOprtAsct;
++    }
++
++    return *this;
++  }
++
+   //---------------------------------------------------------------------------
+   /** \brief Clone this instance and return a pointer to the new instance. */
+   ParserCallback* ParserCallback::Clone() const
+diff --git a/ext_libs/muparser/muParserCallback.h b/ext_libs/muparser/muParserCallback.h
+index ef32b49..e8e274d 100755
+--- a/ext_libs/muparser/muParserCallback.h
++++ b/ext_libs/muparser/muParserCallback.h
+@@ -81,6 +81,7 @@ public:
+     ParserCallback(strfun_type3 a_pFun, bool a_bAllowOpti);
+     ParserCallback();
+     ParserCallback(const ParserCallback &a_Fun);
++    ParserCallback& operator=(const ParserCallback& cb);
+     
+     ParserCallback* Clone() const;
+ 
+diff --git a/mlxfwops/lib/fw_ops.cpp b/mlxfwops/lib/fw_ops.cpp
+index fc06c50..4d7bcdf 100644
+--- a/mlxfwops/lib/fw_ops.cpp
++++ b/mlxfwops/lib/fw_ops.cpp
+@@ -768,16 +768,16 @@ void FwOperations::BackUpFwParams(fw_ops_params_t& fwParams)
+     _fwParams.errBuff = (char*)NULL;
+     _fwParams.errBuffSize = 0;
+     _fwParams.fileHndl = (fwParams.hndlType == FHT_FW_FILE && fwParams.fileHndl) ? \
+-                         strncpy((char*)(new char[(strlen(fwParams.fileHndl) + 1)]), fwParams.fileHndl, strlen(fwParams.fileHndl) + 1) : (char*)NULL;
++                         (char*)memmove((new char[(strlen(fwParams.fileHndl) + 1)]), fwParams.fileHndl, strlen(fwParams.fileHndl) + 1) : (char*)NULL;
+     // no support for flash params
+     _fwParams.flashParams = (flash_params_t*)NULL;
+     _fwParams.forceLock = fwParams.forceLock;
+     _fwParams.ignoreCacheRep = fwParams.ignoreCacheRep;
+     _fwParams.mstHndl = (fwParams.hndlType == FHT_MST_DEV && fwParams.mstHndl) ? \
+-                        strncpy((char*)(new char[(strlen(fwParams.mstHndl) + 1)]), fwParams.mstHndl, strlen(fwParams.mstHndl) + 1) : (char*)NULL;
++                        (char*)memmove((new char[(strlen(fwParams.mstHndl) + 1)]), fwParams.mstHndl, strlen(fwParams.mstHndl) + 1) : (char*)NULL;
+     _fwParams.noFlashVerify = fwParams.noFlashVerify;
+     _fwParams.numOfBanks = fwParams.numOfBanks;
+-    _fwParams.psid = fwParams.psid ? strncpy((char*)(new char[(strlen(fwParams.psid) + 1)]), fwParams.psid, strlen(fwParams.psid) + 1) : (char*)NULL;
++    _fwParams.psid = fwParams.psid ? (char*)memmove((new char[(strlen(fwParams.psid) + 1)]), fwParams.psid, strlen(fwParams.psid) + 1) : (char*)NULL;
+     _fwParams.readOnly = fwParams.readOnly;
+     _fwParams.shortErrors = fwParams.shortErrors;
+     _fwParams.uefiExtra = fwParams.uefiExtra;
+-- 
+2.23.0
+
