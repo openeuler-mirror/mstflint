@@ -1,13 +1,14 @@
-From cb320df0e85dfc65ef605c8fcca0c16dd5c70420 Mon Sep 17 00:00:00 2001
+From a6ab27b854a63983403ee4376a0303629267c6c1 Mon Sep 17 00:00:00 2001
 From: lizhenhua <lizhenhua@sina.com>
-Date: Wed, 20 May 2020 10:45:53 +0800
+Date: Wed, 20 May 2020 13:49:21 +0800
 Subject: [PATCH] Fix compile errors
 
 ---
  ext_libs/muparser/muParserCallback.cpp | 16 ++++++++++++++++
  ext_libs/muparser/muParserCallback.h   |  1 +
  mlxfwops/lib/fw_ops.cpp                |  6 +++---
- 3 files changed, 20 insertions(+), 3 deletions(-)
+ small_utils/mtserver.c                 |  4 ++--
+ 4 files changed, 22 insertions(+), 5 deletions(-)
 
 diff --git a/ext_libs/muparser/muParserCallback.cpp b/ext_libs/muparser/muParserCallback.cpp
 index 2044fe1..27c5b08 100755
@@ -72,6 +73,21 @@ index fc06c50..4d7bcdf 100644
      _fwParams.readOnly = fwParams.readOnly;
      _fwParams.shortErrors = fwParams.shortErrors;
      _fwParams.uefiExtra = fwParams.uefiExtra;
+diff --git a/small_utils/mtserver.c b/small_utils/mtserver.c
+index 143c1f4..335a5ff 100644
+--- a/small_utils/mtserver.c
++++ b/small_utils/mtserver.c
+@@ -420,8 +420,8 @@ int parse_i2c_cmd(char *buf, u_int8_t *addr_width, u_int8_t *slave_addr, int *si
+         for (i = 0; i < *size; i++) {
+             char tmp_num[10];
+             // TODO: use 16 on the  strtoul
+-            strncpy(tmp_num, "0x", 2);
+-            strncpy(tmp_num + 2, p, 2);
++            memmove(tmp_num, "0x", 2);
++            memmove(tmp_num + 2, p, 2);
+             tmp_num[4] = '\0';
+             ((u_int8_t*)data)[i] = (u_int8_t)strtoul(tmp_num, 0, 0);
+             p += 2;
 -- 
 2.23.0
 
