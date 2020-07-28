@@ -1,13 +1,13 @@
 Name:           mstflint
 Summary:        Firmware Burning and Diagnostics Tools
 Version:        4.10.0
-Release:        5
+Release:        6
 License:        GPLv2+ or BSD
 Url:            https://github.com/Mellanox/mstflint
 Source:         https://github.com/Mellanox/%{name}/releases/download/v4.10.0-2/%{name}-%{version}.tar.gz
 Patch0000:      0001-Fix-compile-errors.patch
 
-BuildRequires:  libstdc++-devel zlib-devel libibmad-devel gcc-c++ gcc
+BuildRequires:  libstdc++-devel zlib-devel rdma-core-devel gcc-c++ gcc
 BuildRequires:  libcurl-devel boost-devel libxml2-devel openssl-devel
 Obsoletes:      openib-mstflint <= 1.4 openib-tvflash <= 0.9.2 tvflash <= 0.9.0
 
@@ -43,6 +43,9 @@ export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 lingsheng <lingsheng@huawei.com> - 4.10.0-6
+- change the libibmad-devel to rdma-core-devel
+
 * Tue May 19 2020 lizhenhua <lizhenhua12@huawei.com> - 4.10.0-5
 - Fix compile errors for gcc9
 
