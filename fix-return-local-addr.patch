@@ -1,0 +1,12 @@
+diff -urN ./ext_libs2/sqlite/sqlite3.c ./ext_libs/sqlite/sqlite3.c
+--- ./ext_libs2/sqlite/sqlite3.c	2021-08-05 09:37:16.410250283 +0800
++++ ./ext_libs/sqlite/sqlite3.c	2021-08-05 09:36:24.801803014 +0800
+@@ -112969,7 +112969,7 @@
+   Expr *pLimit,         /* LIMIT value.  NULL means not used */
+   Expr *pOffset         /* OFFSET value.  NULL means no offset */
+ ){
+-  Select *pNew;
++  static Select *pNew;
+   Select standin;
+   sqlite3 *db = pParse->db;
+   pNew = sqlite3DbMallocRawNN(db, sizeof(*pNew) );

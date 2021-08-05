@@ -1,11 +1,12 @@
 Name:           mstflint
 Summary:        Firmware Burning and Diagnostics Tools
 Version:        4.10.0
-Release:        6
+Release:        7
 License:        GPLv2+ or BSD
 Url:            https://github.com/Mellanox/mstflint
 Source:         https://github.com/Mellanox/%{name}/releases/download/v4.10.0-2/%{name}-%{version}.tar.gz
 Patch0000:      0001-Fix-compile-errors.patch
+Patch0001:      fix-return-local-addr.patch
 
 BuildRequires:  libstdc++-devel zlib-devel rdma-core-devel gcc-c++ gcc
 BuildRequires:  libcurl-devel boost-devel libxml2-devel openssl-devel
@@ -43,6 +44,9 @@ export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
 %{_mandir}/man1/*
 
 %changelog
+* Tue Aug 4 2021 shdluan@163.com <shdluan@163.com> - 4.10.0-7
+- fix return local addr
+
 * Tue Jul 28 2020 lingsheng <lingsheng@huawei.com> - 4.10.0-6
 - change the libibmad-devel to rdma-core-devel
 
