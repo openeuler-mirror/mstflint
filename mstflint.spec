@@ -1,7 +1,7 @@
 Name:           mstflint
 Summary:        Firmware Burning and Diagnostics Tools
 Version:        4.10.0
-Release:        7
+Release:        8
 License:        GPLv2+ or BSD
 Url:            https://github.com/Mellanox/mstflint
 Source:         https://github.com/Mellanox/%{name}/releases/download/v4.10.0-2/%{name}-%{version}.tar.gz
@@ -29,7 +29,7 @@ export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
 
 %install
 %make_install
-
+strip %{buildroot}/%{_libdir}/mstflint/python_tools/*.so
 %delete_la_and_a
 
 %files
@@ -44,6 +44,9 @@ export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
 %{_mandir}/man1/*
 
 %changelog
+* Fri Sep 10 2021 Pengju Jiang <jiangpengju2@huawei.com>
+- solve the strip problem of dark conversion compilation
+
 * Tue Aug 4 2021 shdluan@163.com <shdluan@163.com> - 4.10.0-7
 - fix return local addr
 
