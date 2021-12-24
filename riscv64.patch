@@ -1,0 +1,71 @@
+From: Tzafrir Cohen <nvidia@cohens.org.il>
++Subject: Support the riscv64 architecture
++Upstream: https://github.com/Mellanox/mstflint/pull/393
++
++Adds "__riscv" as a 64bit architecture.
++
++Good enough for Debian. The real fix is probably a proper feature test
++in autoconf.
+
+--- a/common/compatibility.h	2018-07-10 20:43:14.000000000 +0800
++++ b/common/compatibility.h	2021-12-24 13:43:57.235056800 +0800
+@@ -63,6 +63,8 @@
+ #       define ARCH_arm64
+ #   elif defined(__arm__)
+ #       define ARCH_arm6l
++#   elif defined(__riscv)
++#       define ARCH_riscv
+ #   else
+ #       error Unknown CPU architecture using the linux OS
+ #   endif
+@@ -109,7 +111,7 @@
+ #       define U48H_FMT     "0x%012llx"
+ #       define U64D_FMT_GEN "llu"
+ #   endif
+-#elif defined(ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64)
++#elif defined(ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64) || defined(ARCH_riscv)
+ #    define U64D_FMT     "%lu"
+ #    define U64H_FMT     "0x%016lx"
+ #    define U48H_FMT     "0x%012lx"
+
+--- a/tools_layouts/adb_to_c_utils.h	2018-07-10 20:43:14.000000000 +0800
++++ b/tools_layouts/adb_to_c_utils.h	2021-12-24 13:45:59.546689900 +0800
+@@ -137,6 +137,8 @@
+ #       define ARCH_arm64
+ #   elif defined(__arm__)
+ #       define ARCH_arm6l
++#   elif defined(__riscv)
++#       define ARCH_riscv
+ #   else
+ #       error Unknown CPU architecture using the linux OS
+ #   endif
+@@ -180,7 +182,7 @@
+ #       define U64H_FMT    "0x%016llx"
+ #       define U48H_FMT    "0x%012llx"
+ #   endif
+-#elif defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64)
++#elif defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64) || defined(ARCH_riscv)
+ #    define U64D_FMT    "%lu"
+ #    define U64H_FMT    "0x%016lx"
+ #	 define U48H_FMT	"0x%012lx" 
+ 
+--- a/mtcr_ul/packets_common.h	2018-07-10 20:43:14.000000000 +0800
++++ a/mtcr_ul/packets_common.h	2021-12-24 13:48:16.590508900 +0800
+@@ -152,6 +152,8 @@
+ #       define ARCH_arm64
+ #   elif defined(__arm__)
+ #       define ARCH_arm6l
++#   elif defined(__riscv)
++#       define ARCH_riscv
+ #   else
+ #       error Unknown CPU architecture using the linux OS
+ #   endif
+@@ -165,7 +167,7 @@
+ /* define macros for print fields */
+ //#if defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(__MINGW64__)
+ /*
+- #if !defined(UEFI_BUILD) && (defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(__MINGW64__))
++ #if !defined(UEFI_BUILD) && (defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(__MINGW64__)) || defined(ARCH_riscv))
+  #   define U64H_FMT "0x%016lx"
+  #   define U64D_FMT "%lu"
+  #   define U32H_FMT "0x%08x"
