@@ -1,0 +1,63 @@
+diff -Naur mstflint-4.10.0.org/common/compatibility.h mstflint-4.10.0.sw/common/compatibility.h
+--- mstflint-4.10.0.org/common/compatibility.h	2022-05-27 11:07:58.390000000 +0000
++++ mstflint-4.10.0.sw/common/compatibility.h	2022-05-27 11:20:13.920000000 +0000
+@@ -40,7 +40,7 @@
+ 
+ #include <stdio.h>
+ 
+-#if defined(__ia64__) || defined(__x86_64__) || defined(__PPC64__) || defined(__arm__)
++#if defined(__ia64__) || defined(__x86_64__) || defined(__PPC64__) || defined(__arm__) || defined(__sw_64__)
+     #define U64L       "l"
+ #else
+     #define U64L       "ll"
+@@ -63,6 +63,8 @@
+ #       define ARCH_arm64
+ #   elif defined(__arm__)
+ #       define ARCH_arm6l
++#   elif defined(__sw_64__)
++#       define ARCH_sw_64
+ #   else
+ #       error Unknown CPU architecture using the linux OS
+ #   endif
+@@ -109,7 +111,7 @@
+ #       define U48H_FMT     "0x%012llx"
+ #       define U64D_FMT_GEN "llu"
+ #   endif
+-#elif defined(ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64)
++#elif defined(ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64) || defined(ARCH_sw_64)
+ #    define U64D_FMT     "%lu"
+ #    define U64H_FMT     "0x%016lx"
+ #    define U48H_FMT     "0x%012lx"
+diff -Naur mstflint-4.10.0.org/mtcr_ul/packets_common.h mstflint-4.10.0.sw/mtcr_ul/packets_common.h
+--- mstflint-4.10.0.org/mtcr_ul/packets_common.h	2022-05-27 11:07:58.400000000 +0000
++++ mstflint-4.10.0.sw/mtcr_ul/packets_common.h	2022-05-27 11:10:09.880000000 +0000
+@@ -152,6 +152,8 @@
+ #       define ARCH_arm64
+ #   elif defined(__arm__)
+ #       define ARCH_arm6l
++#   elif defined(__sw_64__)
++#       define ARCH_sw_64
+ #   else
+ #       error Unknown CPU architecture using the linux OS
+ #   endif
+diff -Naur mstflint-4.10.0.org/tools_layouts/adb_to_c_utils.h mstflint-4.10.0.sw/tools_layouts/adb_to_c_utils.h
+--- mstflint-4.10.0.org/tools_layouts/adb_to_c_utils.h	2022-05-27 11:07:58.500000000 +0000
++++ mstflint-4.10.0.sw/tools_layouts/adb_to_c_utils.h	2022-05-27 11:09:31.900000000 +0000
+@@ -137,6 +137,8 @@
+ #       define ARCH_arm64
+ #   elif defined(__arm__)
+ #       define ARCH_arm6l
++#   elif defined(__sw_64__)
++#       define ARCH_sw_64
+ #   else
+ #       error Unknown CPU architecture using the linux OS
+ #   endif
+@@ -180,7 +182,7 @@
+ #       define U64H_FMT    "0x%016llx"
+ #       define U48H_FMT    "0x%012llx"
+ #   endif
+-#elif defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64)
++#elif defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64) || defined(ARCH_sw_64)
+ #    define U64D_FMT    "%lu"
+ #    define U64H_FMT    "0x%016lx"
+ #	 define U48H_FMT	"0x%012lx" 
