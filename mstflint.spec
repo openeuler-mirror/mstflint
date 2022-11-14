@@ -1,10 +1,10 @@
 Name:           mstflint
 Summary:        Firmware Burning and Diagnostics Tools
 Version:        4.10.0
-Release:        7
+Release:        8
 License:        GPLv2+ or BSD
 Url:            https://github.com/Mellanox/mstflint
-Source:         https://github.com/Mellanox/%{name}/releases/download/v4.10.0-2/%{name}-%{version}.tar.gz
+Source:         https://github.com/Mellanox/%{name}/releases/download/v4.10.0-1/%{name}-%{version}.tar.gz
 Patch0000:      0001-Fix-compile-errors.patch
 Patch0001:      fix-return-local-addr.patch
 
@@ -44,6 +44,9 @@ export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
 %{_mandir}/man1/*
 
 %changelog
+* Thu Nov 10 2022 liyanan <liyanan32@h-partners.com>  - 4.10.0-8
+- Change source
+
 * Tue Aug 4 2021 shdluan@163.com <shdluan@163.com> - 4.10.0-7
 - fix return local addr
 
