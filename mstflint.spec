@@ -1,7 +1,7 @@
 Name:           mstflint
 Summary:        Firmware Burning and Diagnostics Tools
 Version:        4.10.0
-Release:        8
+Release:        9
 License:        GPLv2+ or BSD
 Url:            https://github.com/Mellanox/mstflint
 Source:         https://github.com/Mellanox/%{name}/releases/download/v4.10.0-1/%{name}-%{version}.tar.gz
@@ -30,6 +30,7 @@ export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
 %install
 %make_install
 
+strip %{buildroot}/%{_libdir}/mstflint/python_tools/*.so
 %delete_la_and_a
 
 %files
@@ -44,6 +45,9 @@ export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
 %{_mandir}/man1/*
 
 %changelog
+* Tue Dec 6 2022 liyanan <liyanan32@h-partners.com>  - 4.10.0-9
+- fix strip problem
+
 * Thu Nov 10 2022 liyanan <liyanan32@h-partners.com>  - 4.10.0-8
 - Change source
 
