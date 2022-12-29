@@ -1,0 +1,33 @@
+From e8d9ff786a04eb142ce6f3c8650ea975bbe595e2 Mon Sep 17 00:00:00 2001
+From: Samer Deeb <samerd@mellanox.com>
+Date: Mon, 12 Nov 2018 20:39:36 +0000
+Subject: [PATCH] Title: Fix error while burning mcc enabled Description:
+ ignore HMAC calculation Issue: 1472385
+
+Signed-off-by: Samer Deeb <samerd@mellanox.com>
+---
+ mlxfwops/lib/fs3_ops.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/mlxfwops/lib/fs3_ops.cpp b/mlxfwops/lib/fs3_ops.cpp
+index deb4a05..b5a9d93 100644
+--- a/mlxfwops/lib/fs3_ops.cpp
++++ b/mlxfwops/lib/fs3_ops.cpp
+@@ -3316,12 +3316,12 @@ bool Fs3Operations::AddHMACIfNeeded(Fs3Operations* imageOps, Flash *f)
+         }
+     }
+ 
+-    return true;
+ #else
+     (void)imageOps;
+     (void)f;
+-    return errmsg("HMAC calculation is not implemented\n");
++    //ignore
+ #endif
++    return true;
+ }
+ 
+ bool Fs3Operations::DoAfterBurnJobs(const u_int32_t magic_patter[],
+-- 
+2.21.0
+
