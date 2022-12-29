@@ -1,13 +1,14 @@
 Name:           mstflint
 Summary:        Firmware Burning and Diagnostics Tools
 Version:        4.10.0
-Release:        8
+Release:        9
 License:        GPLv2+ or BSD
 Url:            https://github.com/Mellanox/mstflint
 Source:         https://github.com/Mellanox/%{name}/releases/download/v4.10.0-2/%{name}-%{version}.tar.gz
 Patch0000:      0001-Fix-compile-errors.patch
 Patch0001:      fix-return-local-addr.patch
 Patch0002:      mstflint-4.10.0-sw.patch
+Patch0003:      backport-0001-Title-Fix-error-while-burning-mcc-enabled.patch
 
 BuildRequires:  libstdc++-devel zlib-devel rdma-core-devel gcc-c++ gcc
 BuildRequires:  libcurl-devel boost-devel libxml2-devel openssl-devel
@@ -45,6 +46,9 @@ export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
 %{_mandir}/man1/*
 
 %changelog
+* Thu Dec 29 2022 chenmaodong <chenmaodong@xfusion.com> - 4.10.0-9
+- Fix error while burning mcc enabled Description
+
 * Mon Oct 24 2022 wuzx<wuzx1226@qq.com> - 4.10.0-8
 - Add sw64 architecture
 
