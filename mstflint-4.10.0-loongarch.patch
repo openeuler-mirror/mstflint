@@ -1,0 +1,72 @@
+diff -Naur aa/common/compatibility.h bb/common/compatibility.h
+--- aa/common/compatibility.h	2023-01-04 10:30:00.957104162 +0800
++++ bb/common/compatibility.h	2023-01-04 10:33:48.736423701 +0800
+@@ -40,7 +40,7 @@
+ 
+ #include <stdio.h>
+ 
+-#if defined(__ia64__) || defined(__x86_64__) || defined(__PPC64__) || defined(__arm__) || defined(__sw_64__)
++#if defined(__ia64__) || defined(__x86_64__) || defined(__PPC64__) || defined(__arm__) || defined(__sw_64__) || defined(__loongarch__)
+     #define U64L       "l"
+ #else
+     #define U64L       "ll"
+@@ -65,6 +65,8 @@
+ #       define ARCH_arm6l
+ #   elif defined(__sw_64__)
+ #       define ARCH_sw_64
++#   elif defined(__loongarch__)
++#       define ARCH_loongarch
+ #   else
+ #       error Unknown CPU architecture using the linux OS
+ #   endif
+@@ -111,7 +113,7 @@
+ #       define U48H_FMT     "0x%012llx"
+ #       define U64D_FMT_GEN "llu"
+ #   endif
+-#elif defined(ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64) || defined(ARCH_sw_64)
++#elif defined(ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64) || defined(ARCH_sw_64) || defined(ARCH_loongarch)
+ #    define U64D_FMT     "%lu"
+ #    define U64H_FMT     "0x%016lx"
+ #    define U48H_FMT     "0x%012lx"
+diff -Naur aa/mtcr_ul/packets_common.h bb/mtcr_ul/packets_common.h
+--- aa/mtcr_ul/packets_common.h	2023-01-04 10:30:00.961104220 +0800
++++ bb/mtcr_ul/packets_common.h	2023-01-04 10:37:32.375682905 +0800
+@@ -154,6 +154,8 @@
+ #       define ARCH_arm6l
+ #   elif defined(__sw_64__)
+ #       define ARCH_sw_64
++#   elif defined(__loongarch__)
++#       define ARCH_loongarch
+ #   else
+ #       error Unknown CPU architecture using the linux OS
+ #   endif
+@@ -175,7 +177,7 @@
+  #   define U8H_FMT  "0x%02x"
+  #   define U32D_FMT "%u"
+  #   define STR_FMT "%s"
+- #elif defined(ARCH_x86) || defined(ARCH_ppc) || defined(__MINGW32__) || defined(UEFI_BUILD) || defined(ARCH_arm6l)
++ #elif defined(ARCH_x86) || defined(ARCH_ppc) || defined(__MINGW32__) || defined(UEFI_BUILD) || defined(ARCH_arm6l) || defined(ARCH_loongarch)
+  #   define U64H_FMT "0x%016llx"
+  #   define U64D_FMT "%llu"
+  #   define U32H_FMT "0x%08x"
+diff -Naur aa/tools_layouts/adb_to_c_utils.h bb/tools_layouts/adb_to_c_utils.h
+--- aa/tools_layouts/adb_to_c_utils.h	2023-01-04 10:30:00.969104337 +0800
++++ bb/tools_layouts/adb_to_c_utils.h	2023-01-04 10:38:21.364396841 +0800
+@@ -139,6 +139,8 @@
+ #       define ARCH_arm6l
+ #   elif defined(__sw_64__)
+ #       define ARCH_sw_64
++#   elif defined(__loongarch__)
++#       define ARCH_loongarch
+ #   else
+ #       error Unknown CPU architecture using the linux OS
+ #   endif
+@@ -182,7 +184,7 @@
+ #       define U64H_FMT    "0x%016llx"
+ #       define U48H_FMT    "0x%012llx"
+ #   endif
+-#elif defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64) || defined(ARCH_sw_64)
++#elif defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64) || defined(ARCH_sw_64) || defined(ARCH_loongarch)
+ #    define U64D_FMT    "%lu"
+ #    define U64H_FMT    "0x%016lx"
+ #	 define U48H_FMT	"0x%012lx" 
