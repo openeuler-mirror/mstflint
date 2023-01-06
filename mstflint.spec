@@ -1,7 +1,7 @@
 Name:           mstflint
 Summary:        Firmware Burning and Diagnostics Tools
 Version:        4.10.0
-Release:        11
+Release:        12
 License:        GPLv2+ or BSD
 Url:            https://github.com/Mellanox/mstflint
 Source:         https://github.com/Mellanox/%{name}/releases/download/v4.10.0-1/%{name}-%{version}.tar.gz
@@ -9,6 +9,7 @@ Patch0000:      0001-Fix-compile-errors.patch
 Patch0001:      fix-return-local-addr.patch
 Patch0002:      mstflint-4.10.0-sw.patch
 Patch0003:      backport-0001-Title-Fix-error-while-burning-mcc-enabled.patch
+Patch0004:      backport-0001-Title-Fix-errors-found-with-checkpatch-script.patch
 
 BuildRequires:  libstdc++-devel zlib-devel rdma-core-devel gcc-c++ gcc
 BuildRequires:  libcurl-devel boost-devel libxml2-devel openssl-devel
@@ -29,6 +30,7 @@ code. Please see the file LICENSE for licensing details.
 %patch2 -p1
 %endif
 %patch3 -p1
+%patch4 -p1
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
@@ -53,6 +55,9 @@ strip %{buildroot}/%{_libdir}/mstflint/python_tools/*.so
 %{_mandir}/man1/*
 
 %changelog
+* Fri Jan 06 2023 chenmaodong <chenmaodong@xfusion.com> - 4.10.0-12
+- Fix errors found with checkpatch script
+
 * Thu Jan 05 2023 chenmaodong <chenmaodong@xfusion.com> - 4.10.0-11
 - Fix error while burning mcc enabled Description
 
