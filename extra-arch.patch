@@ -1,0 +1,163 @@
+From 889235fee41dc9b565407ce923e5af100c839b97 Mon Sep 17 00:00:00 2001
+From: Tzafrir Cohen <nvidia@cohens.org.il>
+Date: Fri, 5 Feb 2021 10:36:33 +0200
+Subject: [PATCH 1/2] Allow building on riscv64
+
+---
+ common/compatibility.h         | 4 +++-
+ mtcr_ul/packets_common.h       | 4 +++-
+ tools_layouts/adb_to_c_utils.h | 4 +++-
+ 3 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/common/compatibility.h b/common/compatibility.h
+index f8bc8179..d1634789 100644
+--- a/common/compatibility.h
++++ b/common/compatibility.h
+@@ -63,6 +63,8 @@
+ #       define ARCH_arm64
+ #   elif defined(__arm__)
+ #       define ARCH_arm6l
++#   elif defined(__riscv)
++#       define ARCH_riscv
+ #   else
+ #       error Unknown CPU architecture using the linux OS
+ #   endif
+@@ -109,7 +111,7 @@
+ #       define U48H_FMT     "0x%012llx"
+ #       define U64D_FMT_GEN "llu"
+ #   endif
+-#elif defined(ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64)
++#elif defined(ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64) || defined(ARCH_riscv)
+ #    define U64D_FMT     "%lu"
+ #    define U64H_FMT     "0x%016lx"
+ #    define U48H_FMT     "0x%012lx"
+diff --git a/mtcr_ul/packets_common.h b/mtcr_ul/packets_common.h
+index 4df05efa..7f43b598 100644
+--- a/mtcr_ul/packets_common.h
++++ b/mtcr_ul/packets_common.h
+@@ -152,6 +152,8 @@
+ #       define ARCH_arm64
+ #   elif defined(__arm__)
+ #       define ARCH_arm6l
++#   elif defined(__riscv)
++#       define ARCH_riscv
+ #   else
+ #       error Unknown CPU architecture using the linux OS
+ #   endif
+@@ -165,7 +167,7 @@
+ /* define macros for print fields */
+ //#if defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(__MINGW64__)
+ /*
+- #if !defined(UEFI_BUILD) && (defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(__MINGW64__))
++ #if !defined(UEFI_BUILD) && (defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(__MINGW64__) || defined(ARCH_riscv))
+  #   define U64H_FMT "0x%016lx"
+  #   define U64D_FMT "%lu"
+  #   define U32H_FMT "0x%08x"
+diff --git a/tools_layouts/adb_to_c_utils.h b/tools_layouts/adb_to_c_utils.h
+index 2e7a1ef4..61af52f6 100644
+--- a/tools_layouts/adb_to_c_utils.h
++++ b/tools_layouts/adb_to_c_utils.h
+@@ -140,6 +140,8 @@ extern "C" {
+ #       define ARCH_arm64
+ #   elif defined(__arm__)
+ #       define ARCH_arm6l
++#   elif defined(__riscv)
++#       define ARCH_riscv
+ #   else
+ #       error Unknown CPU architecture using the linux OS
+ #   endif
+@@ -183,7 +185,7 @@ extern "C" {
+ #       define U64H_FMT    "0x%016llx"
+ #       define U48H_FMT    "0x%012llx"
+ #   endif
+-#elif defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64)
++#elif defined (ARCH_ia64) || defined(ARCH_x86_64) || defined(ARCH_ppc64) || defined(ARCH_arm64) || defined(ARCH_riscv)
+ #    define U64D_FMT    "%lu"
+ #    define U64H_FMT    "0x%016lx"
+ #	 define U48H_FMT	"0x%012lx" 
+
+From e114f5eb1560b0a3d5971e27069012617f72c6ce Mon Sep 17 00:00:00 2001
+From: Tzafrir Cohen <nvidia@cohens.org.il>
+Date: Fri, 5 Feb 2021 10:38:29 +0200
+Subject: [PATCH 2/2] Add support for m68k and hppa
+
+hppa: 32bit userspce of PA-RISC.
+m68k: Motorola 68xxx CPUs
+---
+ common/compatibility.h         | 6 +++++-
+ mtcr_ul/packets_common.h       | 6 +++++-
+ tools_layouts/adb_to_c_utils.h | 6 +++++-
+ 3 files changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/common/compatibility.h b/common/compatibility.h
+index d1634789..d8e4ffe4 100644
+--- a/common/compatibility.h
++++ b/common/compatibility.h
+@@ -55,6 +55,10 @@
+ #       define ARCH_x86_64
+ #   elif defined(__ia64__)
+ #       define ARCH_ia64
++#   elif defined(__m68k__)
++#       define ARCH_m68k
++#   elif defined(__hppa__)
++#       define ARCH_hppa
+ #   elif defined(__PPC64__) || defined(__s390x__)
+ #       define ARCH_ppc64
+ #   elif defined(__PPC__)
+@@ -96,7 +100,7 @@
+ #define U16H_FMT    "0x%04x"
+ #define U8H_FMT     "0x%02x"
+ 
+-#if defined(ARCH_x86) || defined(ARCH_ppc) || defined(UEFI_BUILD) || defined(ARCH_arm6l)
++#if defined(ARCH_x86) || defined(ARCH_ppc) || defined(UEFI_BUILD) || defined(ARCH_arm6l) || defined(ARCH_m68k) || defined(ARCH_hppa)
+ #   if defined(__MINGW32__) || defined(__MINGW64__)
+ #       include <inttypes.h>
+ #       define U64D_FMT    "0x%" PRId64
+diff --git a/mtcr_ul/packets_common.h b/mtcr_ul/packets_common.h
+index 7f43b598..b9582939 100644
+--- a/mtcr_ul/packets_common.h
++++ b/mtcr_ul/packets_common.h
+@@ -144,6 +144,10 @@
+ #       define ARCH_x86_64
+ #   elif defined(__ia64__)
+ #       define ARCH_ia64
++#   elif defined(__m68k__)
++#       define ARCH_m68k
++#   elif defined(__hppa__)
++#       define ARCH_hppa
+ #   elif defined(__PPC64__) || defined(__s390x__)
+ #       define ARCH_ppc64
+ #   elif defined(__PPC__)
+@@ -175,7 +179,7 @@
+  #   define U8H_FMT  "0x%02x"
+  #   define U32D_FMT "%u"
+  #   define STR_FMT "%s"
+- #elif defined(ARCH_x86) || defined(ARCH_ppc) || defined(__MINGW32__) || defined(UEFI_BUILD) || defined(ARCH_arm6l)
++ #elif defined(ARCH_x86) || defined(ARCH_ppc) || defined(__MINGW32__) || defined(UEFI_BUILD) || defined(ARCH_arm6l) defined(ARCH_m68k) || defined(ARCH_hppa)
+  #   define U64H_FMT "0x%016llx"
+  #   define U64D_FMT "%llu"
+  #   define U32H_FMT "0x%08x"
+diff --git a/tools_layouts/adb_to_c_utils.h b/tools_layouts/adb_to_c_utils.h
+index 61af52f6..5f1f58a3 100644
+--- a/tools_layouts/adb_to_c_utils.h
++++ b/tools_layouts/adb_to_c_utils.h
+@@ -132,6 +132,10 @@ extern "C" {
+ #       define ARCH_x86_64
+ #   elif defined(__ia64__)
+ #       define ARCH_ia64
++#   elif defined(__m68k__)
++#       define ARCH_m68k
++#   elif defined(__hppa__)
++#       define ARCH_hppa
+ #   elif defined(__PPC64__) || defined(__s390x__)
+ #       define ARCH_ppc64
+ #   elif defined(__PPC__)
+@@ -174,7 +178,7 @@ extern "C" {
+ #define U16H_FMT    "0x%04x"
+ #define U8H_FMT     "0x%02x"
+ 
+-#if defined(ARCH_x86) || defined(ARCH_ppc) || defined(UEFI_BUILD) || defined(ARCH_arm6l)
++#if defined(ARCH_x86) || defined(ARCH_ppc) || defined(UEFI_BUILD) || defined(ARCH_arm6l) || defined(ARCH_m68k) || defined(ARCH_hppa)
+ #   if defined(__MINGW32__) || defined(__MINGW64__)
+ #       include <inttypes.h>
+ #       define U64D_FMT    "0x%" PRId64

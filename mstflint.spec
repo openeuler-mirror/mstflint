@@ -1,7 +1,7 @@
 Name:           mstflint
 Summary:        Firmware Burning and Diagnostics Tools
 Version:        4.10.0
-Release:        10
+Release:        11
 License:        GPLv2+ or BSD
 Url:            https://github.com/Mellanox/mstflint
 Source:         https://github.com/Mellanox/%{name}/releases/download/v4.10.0-2/%{name}-%{version}.tar.gz
@@ -9,6 +9,7 @@ Patch0000:      0001-Fix-compile-errors.patch
 Patch0001:      fix-return-local-addr.patch
 Patch0002:      backport-0001-Title-Fix-error-while-burning-mcc-enabled.patch
 Patch0003:      backport-0001-Title-Fix-errors-found-with-checkpatch-script.patch
+Patch0004:      extra-arch.patch
 BuildRequires:  libstdc++-devel zlib-devel rdma-core-devel gcc-c++ gcc
 BuildRequires:  libcurl-devel boost-devel libxml2-devel openssl-devel
 Obsoletes:      openib-mstflint <= 1.4 openib-tvflash <= 0.9.2 tvflash <= 0.9.0
@@ -24,7 +25,10 @@ code. Please see the file LICENSE for licensing details.
 %autosetup -p1
 
 %build
-export CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
+%if "%toolchain" == "clang"
+	export CFLAGS="$RPM_OPT_FLAGS -Wno-error=implicit-const-int-float-conversion -Wno-error=tautological-overlap-compare -Wno-error=unused-but-set-variable -Wno-error=deprecated-non-prototype -Wno-error=unused-variable" 
+	export CXXFLAGS="$RPM_OPT_FLAGS -Wno-error=implicit-const-int-float-conversion -Wno-error=tautological-overlap-compare -Wno-error=unused-but-set-variable -Wno-error=deprecated-non-prototype -Wno-error=unused-variable"
+%endif
 %configure --enable-fw-mgr
 %make_build
 
@@ -45,6 +49,9 @@ strip %{buildroot}/%{_libdir}/mstflint/python_tools/*.so
 %{_mandir}/man1/*
 
 %changelog
+* Thu May 18 2023 yoo <sunyuechi@iscas.ac.cn> - 4.10.0-11
+- fix clang build error, add riscv support
+
 * Thu Jan 05 2023 chenmaodong <chenmaodong@xfusion.com> - 4.10.0-10
 - Fix errors found with checkpatch script
 
